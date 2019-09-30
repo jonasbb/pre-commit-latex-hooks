@@ -22,18 +22,16 @@
   entry: "((e\\.g\\.)|(i\\.e\\.))[^,]"
   language: pygrep
   files: \.tex$
-- id: consistent-spelling-naive
-  name: "Consistent spelling: Prohibit naive with two dots"
-  entry: '\bna(?:\\"i)ve\b'
-  language: pygrep
-  files: \.tex$
-- id: consistent-spelling-et-al
-  name: "Consistent spelling: No emph around et al."
-  entry: '\\emph\{et al.\}'
-  language: pygrep
-  files: \.tex$
 - id: no-space-in-cite
   name: "Ensure there are no whitespace characters in the \\cite command"
   entry: '\\cite\{([^\}]*\s)+[^\}]*\}'
   language: pygrep
   files: \.tex$
+- id: consistent-spelling
+  name: Ensure consistency between different spelling variants
+  description: Ensure that all variants (specified by regex) are written the same way.
+  entry: consistent_spelling
+  language: python
+  files: \.tex$
+  require_serial: true
+  language_version: "3.7"
