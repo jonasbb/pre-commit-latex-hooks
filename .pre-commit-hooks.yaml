@@ -34,4 +34,4 @@
   language: python
   files: \.tex$
   require_serial: true
-  language_version: "3.7"
+  language_version: python3.7
