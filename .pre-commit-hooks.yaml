@@ -35,3 +35,8 @@
   files: \.tex$
   require_serial: true
   language_version: python3.7
+- id: ensure-labels-for-sections
+  name: Ensure each section has a matching label
+  entry: ensure-labels
+  language: rust
+  files: \.tex$

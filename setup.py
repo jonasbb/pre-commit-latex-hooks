@@ -4,7 +4,7 @@ setup(
     name="LaTeX oriented pre-commit hooks",
     description="Contains hook(s) for pre-commit, see http://pre-commit.com",
     author="Jonas Bushart <jonas@bushart.org>",
-    version="1.0.0",
+    version="1.1.0",
     classifiers=[
         "License :: OSI Approved :: Apache 2 License",
         "License :: OSI Approved :: MIT License",
