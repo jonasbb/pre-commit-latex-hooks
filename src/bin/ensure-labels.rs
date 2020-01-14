@@ -49,6 +49,27 @@ static RE_SECTIONS: Lazy<Regex> = Lazy::new(|| {
     .unwrap()
 });
 
+/// Match a LaTeX Command with 1 or 2 required arquments.
+static RE_LATEX_COMMAND: Lazy<Regex> = Lazy::new(|| {
+    Regex::new(
+        r#"(?x) # Ignore whitespace mode
+        # Parse \ ident {
+        \\\w+\{
+            (?P<first_arg>
+            [^\{\}]*
+            (?:\{[^\{\}]*\} [^\{\}]*)*
+            )
+        \}
+        # Optional second argument to LaTeX command
+        (?:\{
+            [^\{\}]*
+            (?:\{[^\{\}]*\} [^\{\}]*)*
+        \})?
+        "#,
+    )
+    .unwrap()
+});
+
 #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
 struct Capture<'a> {
     offset: usize,
@@ -80,26 +101,6 @@ impl<'a> From<regex::Captures<'a>> for Capture<'a> {
     }
 }
 
-/// Match a LaTeX Command with 1 or 2 required arquments.
-static RE_LATEX_COMMAND: Lazy<Regex> = Lazy::new(|| {
-    Regex::new(
-        r#"(?x) # Ignore whitespace mode
-        # Parse \ ident {
-        \\\w+\{
-            (?P<first_arg>
-            [^\{\}]*
-            (?:\{[^\{\}]*\} [^\{\}]*)*
-            )
-        \}
-        # Optional second argument to LaTeX command
-        (?:\{
-            [^\{\}]*
-            (?:\{[^\{\}]*\} [^\{\}]*)*
-        \})?
-        "#,
-    )
-    .unwrap()
-});
 
 #[derive(Clone, Debug, StructOpt)]
 #[structopt(global_settings(&[
@@ -108,6 +109,11 @@ static RE_LATEX_COMMAND: Lazy<Regex> = Lazy::new(|| {
 ]))]
 struct CliArgs {
     files: Vec<PathBuf>,
+}
+
+enum FileStatus {
+    FoundLabelMismatch,
+    AllLabelsMatch,
 }
 
 fn slugify_label(section_type: &str, content: String) -> String {
@@ -138,20 +144,32 @@ fn slugify_label(section_type: &str, content: String) -> String {
 fn main() {
     let cli_args = CliArgs::from_args();
 
-    for path in &cli_args.files {
-        if let Err(err) = process_file(path) {
-            eprintln!("Error in file {}\n  {}", path.display(), err);
+    let mut has_error = false;
 
-            let mut err = &*err;
-            while let Some(cause) = err.source() {
-                eprintln!("  Caused by: {}", cause);
-                err = cause;
+    for path in &cli_args.files {
+        match process_file(path) {
+            Ok(FileStatus::FoundLabelMismatch) => has_error = true,
+            Ok(FileStatus::AllLabelsMatch) => {}
+            Err(err) => {
+                has_error = true;
+                eprintln!("Error in file {}\n  {}", path.display(), err);
+
+                let mut err = &*err;
+                while let Some(cause) = err.source() {
+                    eprintln!("  Caused by: {}", cause);
+                    err = cause;
+                }
             }
         }
     }
+
+    if has_error {
+        std::process::exit(1);
+    }
 }
 
-fn process_file(file: &Path) -> Result<(), Error> {
+fn process_file(file: &Path) -> Result<FileStatus, Error> {
+    let mut found_mismatch = false;
     let text = std::fs::read_to_string(file)?;
 
     RE_SECTIONS.captures_iter(&text).for_each(|capture| {
@@ -171,6 +189,7 @@ fn process_file(file: &Path) -> Result<(), Error> {
 
             match capture.label {
                 None => {
+                    found_mismatch = true;
                     println!(
                         "{}:{} Missing Label, use \\label{{{}}}",
                         file.display(),
@@ -186,6 +205,7 @@ fn process_file(file: &Path) -> Result<(), Error> {
                             .unwrap_or(false)
                     {
                         let line_number = offset_to_line_number(&*text, capture.offset);
+                        found_mismatch = true;
                         println!(
                             "{}:{} Wrong Label '{}', use \\label{{{}}}",
                             file.display(),
@@ -199,7 +219,11 @@ fn process_file(file: &Path) -> Result<(), Error> {
         }
     });
 
-    Ok(())
+    if found_mismatch {
+        Ok(FileStatus::FoundLabelMismatch)
+    } else {
+        Ok(FileStatus::AllLabelsMatch)
+    }
 }
 
 #[cfg(test)]
