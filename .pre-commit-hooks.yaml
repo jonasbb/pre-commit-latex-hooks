@@ -40,3 +40,8 @@
   entry: ensure-labels
   language: rust
   files: \.tex$
+- id: cispa-syssec-forbidden-words
+  name: Forbidden words for CISPA SysSec
+  entry: 'blacklist|whitelist'
+  language: pygrep
+  files: \.tex$

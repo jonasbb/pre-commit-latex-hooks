@@ -1,4 +1,4 @@
-# pre-commit Hooks for LaTeX [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+# pre-commit Hooks for LaTeX [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) | [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/jonasbb/pre-commit-latex-hooks/master.svg)](https://results.pre-commit.ci/latest/github/jonasbb/pre-commit-latex-hooks/master)
 
 ## Example configuration
 
@@ -23,8 +23,9 @@ repos:
               '--regex=naive=\bna(i|\\"i)ve',
             ]
       - id: ensure-labels-for-sections
+      - id: cispa-syssec-forbidden-words
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.2.3
+    rev: v3.3.0
     hooks:
       - id: check-merge-conflict
       - id: check-yaml
