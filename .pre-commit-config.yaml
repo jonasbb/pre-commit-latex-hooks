@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v3.4.0
     hooks:
       - id: check-added-large-files
       - id: trailing-whitespace
@@ -8,16 +8,16 @@ repos:
       - id: check-json
       - id: check-yaml
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v2.7.1
+    rev: v2.9.3
     hooks:
       - id: validate_manifest
-  - repo: https://github.com/python/black
+  - repo: https://github.com/psf/black
     rev: 20.8b1
     hooks:
       - id: black
         language_version: python3
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.5.1
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.6.4
     # https://github.com/python/black#how-black-wraps-lines
     hooks:
       - id: isort
