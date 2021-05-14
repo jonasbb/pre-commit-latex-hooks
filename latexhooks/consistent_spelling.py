@@ -19,24 +19,26 @@ ID2COLOR = {0: RED, 1: GREEN, 2: YELLOW, 3: BLUE, 4: MAGENTA, 5: CYAN}
 class Rule:
     """A set of string (specified by regex) which should be checked for uniqueness."""
 
-    # The name of the rules. Used to label the results if any.
     name: str
-    # A regex which matches all variants of a phrase.
+    """ The name of the rules. Used to label the results if any. """
     regex: t.Pattern[str]
+    """ A regex which matches all variants of a phrase. """
 
 
 @dataclass
 class MatchResult:
-    # 0-based
+    """Information about a regex match"""
+
     line_number: int
-    # start and end of match within line
+    """ Line with a match, 0-based """
     span: t.Tuple[int, int]
-    # The string which matches in the line
+    """ Start and end of match within line """
     pattern: str
-    # Full line with match, for context
+    """ The string which matches in the line """
     line: str
-    # The file where the match happened
+    """ Full line with match, for context """
     file_name: str
+    """ The file where the match happened """
 
 
 def emph_rule(phrase: str) -> Rule:
@@ -70,7 +72,7 @@ def search(rules: t.List[Rule], files: t.List[t.IO[str]]) -> bool:
     found_different_spellings = False
     for pattern, results in matches.items():
         # Check if there are different variants in spelling
-        pattern2id = {p: i for i, p in enumerate(set(x.pattern for x in results))}
+        pattern2id = {p: i for i, p in enumerate({x.pattern for x in results})}
         if 1 != len(pattern2id):
             # Found multiple spellings
             found_different_spellings = True
