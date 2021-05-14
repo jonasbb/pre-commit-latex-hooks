@@ -49,7 +49,7 @@
   minimum_pre_commit_version: "2.8.0"
 - id: cispa-syssec-forbidden-words
   name: Forbidden words for CISPA SysSec
-  entry: 'blacklist|whitelist'
+  entry: '(?i)blacklist|whitelist'
   language: pygrep
   types: [file, tex]
   minimum_pre_commit_version: "2.8.0"
