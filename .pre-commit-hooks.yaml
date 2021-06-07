@@ -8,7 +8,13 @@
 - id: cleveref-capitalization
   name: Ensure the correct usage of \cref
   description: Ensure that \Cref at a sentence start is capitalized and nowhere else in the sentence.
-  entry: "^((\\s*\\\\cref)|[^%\\s]+\\\\Cref).*$"
+  entry: |
+    (?x)
+    ^(
+      (?:\s*\\(?:cref|crefrange|cpageref|cpagerefrange|namecref|namecrefs)\b)
+      |
+      (?:[^%\\s]+\\(?:Cref|Crefrange|Cpageref|Cpagerefrange|nameCref|nameCrefs)\b)
+    ).*$
   language: pygrep
   types: [file, tex]
   minimum_pre_commit_version: "2.8.0"
