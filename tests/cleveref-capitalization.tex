@@ -1,0 +1,64 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+% These should NOT trigger warnings
+\crefname{section}{Sect.}{Sect.}
+\Crefname{section}{Section}{Sections}
+
+% These should NOT trigger warning
+\crefformat{page}{LOWERCASE #1 #2 #3}
+\Crefformat{page}{UPPERCASE #1 #2 #3}
+
+\begin{document}
+
+\section{A}
+\label{sa}
+
+\subsection{a}
+\label{ssaa}
+
+\subsection{b}
+\label{ssab}
+
+\section{B}
+\label{sb}
+
+\subsection{a}
+\label{ssba}
+
+\section{C}
+\label{sc}
+
+% These should all trigger warnings
+cref
+\cref{sa}
+abc \Cref{sa}
+
+crefrange
+\crefrange {sa} {sc}
+abc \Crefrange {sa} {sc}
+
+cpageref
+\cpageref{sa}
+abc \Cpageref{sa}
+
+cpagerefrange
+\cpagerefrange {sa} {sc}
+abc \Cpagerefrange{sa} {sc}
+
+namecref
+\namecref{sa}
+abc \nameCref{sa}
+
+namecrefs
+\namecrefs{sa}
+abc \nameCrefs{sa}
+
+% These should NOT trigger warning
+% There is no uppercase version
+labelcref
+\labelcref {sa,sc}
+\labelcpageref{sa,sc}
+
+\end{document}
