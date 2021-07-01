@@ -87,7 +87,8 @@ def search(rules: t.List[Rule], files: t.List[t.IO[str]]) -> bool:
                     print(current_file)
 
                 c = ID2COLOR[pattern2id[res.pattern]]
-                # res.line contains a linebreak
+                if not res.line.endswith("\n"):
+                    res.line += "\n"
                 print(
                     f"{c} {res.line_number+1:> 5} |{COLOR_RESET} {res.line}{c}       |{COLOR_RESET} {' '*(res.span[0])}{c}{'^'*(res.span[1]-res.span[0])}{COLOR_RESET}"
                 )
