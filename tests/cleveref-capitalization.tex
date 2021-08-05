@@ -33,7 +33,9 @@
 % These should all trigger warnings
 cref
 \cref{sa}
-abc \Cref{sa}
+    \cref{sa}
+abc def \Cref{sa}
+Some sentence here (see~\Cref{sa}).
 
 crefrange
 \crefrange {sa} {sc}
@@ -57,6 +59,15 @@ abc \nameCrefs{sa}
 
 % These should NOT trigger warning
 % There is no uppercase version
+cref
+Foo \cref{sa} bar.
+\Cref{sa}
+    \Cref{sa}
+cref % \Cref{sa}
+cref % \cref{sa}
+%\Cref{sa}
+%\cref{sa}
+
 labelcref
 \labelcref {sa,sc}
 \labelcpageref{sa,sc}
