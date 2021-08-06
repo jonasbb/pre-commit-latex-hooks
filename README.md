@@ -7,13 +7,10 @@
 ```yaml
 repos:
   - repo: https://github.com/jonasbb/pre-commit-latex-hooks
-    rev: v1.1.0
+    rev: v1.2.3
     hooks:
       - id: american-eg-ie
       - id: cleveref-capitalization
-      - id: csquotes
-      - id: no-space-in-cite
-      - id: tilde-cite
       - id: consistent-spelling
         args:
             [
@@ -22,8 +19,10 @@ repos:
               "--emph=a posteriori",
               '--regex=naive=\bna(i|\\"i)ve',
             ]
+      - id: csquotes
       - id: ensure-labels-for-sections
-      - id: cispa-syssec-forbidden-words
+      - id: no-space-in-cite
+      - id: tilde-cite
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.3.0
     hooks:
