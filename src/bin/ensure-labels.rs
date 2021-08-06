@@ -53,8 +53,8 @@ static RE_SECTIONS: Lazy<Regex> = Lazy::new(|| {
 static RE_LATEX_COMMAND: Lazy<Regex> = Lazy::new(|| {
     Regex::new(
         r#"(?x) # Ignore whitespace mode
-        # Parse \ ident {
-        \\\w+\{
+        # Parse \ ident [*] {
+        \\\w+ \*? \{
             (?P<first_arg>
             [^\{\}]*
             (?:\{[^\{\}]*\} [^\{\}]*)*
@@ -447,6 +447,14 @@ mod test_slugify_label {
         assert_eq!(
             slugify_label("subsection", r"Something \emph{very} important".to_string()),
             "ssec:something-very-important"
+        );
+    }
+
+    #[test]
+    fn commands_with_star() {
+        assert_eq!(
+            slugify_label("section", r"Unused abbreviation \ac*{Abc}".to_string()),
+            "sec:unused-abbreviation-abc"
         );
     }
 
