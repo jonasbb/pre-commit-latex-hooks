@@ -67,3 +67,11 @@
   language: pygrep
   types: [file, tex]
   minimum_pre_commit_version: "2.8.0"
+- id: unique-labels
+  name: Ensure each label is only defined once.
+  entry: unique_labels
+  language: python
+  types: [file, tex]
+  minimum_pre_commit_version: "2.8.0"
+  require_serial: true
+  language_version: python3
