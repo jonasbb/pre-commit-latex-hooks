@@ -56,7 +56,7 @@ def search(files: t.List[t.IO[str]]) -> bool:
                 if not res.line.endswith("\n"):
                     res.line += "\n"
                 print(
-                    f"{res.line_number+1:> 5} | {res.line}      | {' '*(res.span[0])}{'^'*(res.span[1]-res.span[0])}"
+                    f" {res.line_number+1:> 5} | {res.line}       | {' '*(res.span[0])}{'^'*(res.span[1]-res.span[0])}"
                 )
             print()
 
