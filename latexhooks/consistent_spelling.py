@@ -86,7 +86,7 @@ def search(rules: t.List[Rule], files: t.List[t.IO[str]]) -> bool:
                     current_file = res.file_name
                     print(current_file)
 
-                c = ID2COLOR[pattern2id[res.pattern]]
+                c = ID2COLOR[pattern2id[res.pattern] % len(ID2COLOR)]
                 if not res.line.endswith("\n"):
                     res.line += "\n"
                 print(
