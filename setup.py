@@ -4,7 +4,7 @@ setup(
     name="LaTeX oriented pre-commit hooks",
     description="Contains hook(s) for pre-commit, see http://pre-commit.com",
     author="Jonas Bushart <jonas@bushart.org>",
-    version="1.2.5",
+    version="1.3.0",
     classifiers=[
         "License :: OSI Approved :: Apache 2 License",
         "License :: OSI Approved :: MIT License",
@@ -15,6 +15,9 @@ setup(
     ],
     packages=find_packages(),
     entry_points={
-        "console_scripts": ["consistent_spelling = latexhooks.consistent_spelling:main"]
+        "console_scripts": [
+            "consistent_spelling = latexhooks.consistent_spelling:main",
+            "unique_labels = latexhooks.unique_labels:main",
+        ]
     },
 )

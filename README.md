@@ -7,7 +7,7 @@
 ```yaml
 repos:
   - repo: https://github.com/jonasbb/pre-commit-latex-hooks
-    rev: v1.2.3
+    rev: v1.3.0
     hooks:
       - id: american-eg-ie
       - id: cleveref-capitalization
@@ -23,6 +23,7 @@ repos:
       - id: ensure-labels-for-sections
       - id: no-space-in-cite
       - id: tilde-cite
+      - id: unique-labels
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.3.0
     hooks:
