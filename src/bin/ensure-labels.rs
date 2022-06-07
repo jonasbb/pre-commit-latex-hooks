@@ -2,7 +2,6 @@ use once_cell::sync::Lazy;
 use regex::{Captures, Regex};
 use slug::slugify;
 use std::path::{Path, PathBuf};
-use structopt::StructOpt;
 
 type Error = Box<dyn std::error::Error + 'static>;
 
@@ -101,12 +100,7 @@ impl<'a> From<regex::Captures<'a>> for Capture<'a> {
     }
 }
 
-
-#[derive(Clone, Debug, StructOpt)]
-#[structopt(global_settings(&[
-    structopt::clap::AppSettings::ColoredHelp,
-    structopt::clap::AppSettings::VersionlessSubcommands
-]))]
+#[derive(Clone, Debug, clap::Parser)]
 struct CliArgs {
     files: Vec<PathBuf>,
 }
@@ -142,7 +136,7 @@ fn slugify_label(section_type: &str, content: String) -> String {
 }
 
 fn main() {
-    let cli_args = CliArgs::from_args();
+    let cli_args: CliArgs = clap::Parser::parse();
 
     let mut has_error = false;
 
