@@ -150,7 +150,7 @@ fn main() {
 
                 let mut err = &*err;
                 while let Some(cause) = err.source() {
-                    eprintln!("  Caused by: {}", cause);
+                    eprintln!("  Caused by: {cause}");
                     err = cause;
                 }
             }
@@ -168,7 +168,7 @@ fn process_file(file: &Path) -> Result<FileStatus, Error> {
 
     RE_SECTIONS.captures_iter(&text).for_each(|capture| {
         let capture: Capture = capture.into();
-        let line_number = offset_to_line_number(&*text, capture.offset);
+        let line_number = offset_to_line_number(&text, capture.offset);
 
         if let Some(_unparsable_section) = capture.unparsable_section {
             println!("{}:{} Unprocessable Section", file.display(), line_number,);
@@ -198,7 +198,7 @@ fn process_file(file: &Path) -> Result<FileStatus, Error> {
                             .map(|cmt| cmt.contains("skip-label"))
                             .unwrap_or(false)
                     {
-                        let line_number = offset_to_line_number(&*text, capture.offset);
+                        let line_number = offset_to_line_number(&text, capture.offset);
                         found_mismatch = true;
                         println!(
                             "{}:{} Wrong Label '{}', use \\label{{{}}}",
