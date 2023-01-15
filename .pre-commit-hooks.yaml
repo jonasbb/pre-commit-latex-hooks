@@ -69,6 +69,7 @@
   minimum_pre_commit_version: "2.8.0"
   require_serial: true
   language_version: python3
+  additional_dependencies: [pybtex]
 - id: tilde-cite
   name: Each \cite needs a ~
   description: Line breaks should never occur before the citation, thus they need to be protected with the ~.
