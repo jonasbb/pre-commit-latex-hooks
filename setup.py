@@ -19,7 +19,6 @@ setup(
             "consistent_spelling = latexhooks.consistent_spelling:main",
             "sort_bib = latexhooks.sort_bib:main",
             "unique_labels = latexhooks.unique_labels:main",
-            
         ]
     },
 )

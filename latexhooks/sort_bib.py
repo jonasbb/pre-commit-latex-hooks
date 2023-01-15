@@ -4,7 +4,9 @@ import os
 from pybtex.database import OrderedCaseInsensitiveDict, parse_file
 
 
-def sort_library(library, banned_fields: set = {'abstract', 'file', 'keywords', 'mendeley-tags'}):
+def sort_library(
+    library, banned_fields: set = {"abstract", "file", "keywords", "mendeley-tags"}
+):
     original_keys = list(library.entries.keys())
     library.original_keys = original_keys
 
@@ -22,6 +24,7 @@ def check_reorder(library):
         return False
     return True
 
+
 def drop_fields(entry, banned_fields: set = {}):
     fields = set(entry.fields.keys())
     for k in fields.intersection(banned_fields):
@@ -37,7 +40,13 @@ def main(argv=None):
 
     parser = argparse.ArgumentParser()
     parser.add_argument("filenames", nargs="*", help="Filenames to run")
-    parser.add_argument("--banned-fields", nargs="*", help="Fields to strip from bibitem entries", dest='banned', default=['abstract', 'file', 'keywords', 'mendeley-tags'])
+    parser.add_argument(
+        "--banned-fields",
+        nargs="*",
+        help="Fields to strip from bibitem entries",
+        dest="banned",
+        default=["abstract", "file", "keywords", "mendeley-tags"],
+    )
     parser.add_argument(
         "--silent-overwrite", action="store_true", dest="silent", default=False
     )
@@ -63,7 +72,7 @@ def main(argv=None):
             else:
                 return_value = 1
                 overwrite_library(library, filename)
-                print("FIXED: {0}".format(os.path.abspath(filename)))
+                print(f"FIXED: {os.path.abspath(filename)}")
     return return_value
 
 
