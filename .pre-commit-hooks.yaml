@@ -60,6 +60,15 @@
   language: pygrep
   types: [file, tex]
   minimum_pre_commit_version: "2.8.0"
+- id: sort-bib
+  name: Sort bibliography files
+  description: Ensure bibliography files are sorted alphabetically.
+  entry: sort_bib
+  language: python
+  types: [file, bib]
+  minimum_pre_commit_version: "2.8.0"
+  require_serial: true
+  language_version: python3
 - id: tilde-cite
   name: Each \cite needs a ~
   description: Line breaks should never occur before the citation, thus they need to be protected with the ~.
