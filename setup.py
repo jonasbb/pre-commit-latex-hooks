@@ -4,7 +4,7 @@ setup(
     name="LaTeX oriented pre-commit hooks",
     description="Contains hook(s) for pre-commit, see http://pre-commit.com",
     author="Jonas Bushart <jonas@bushart.org>",
-    version="1.3.0",
+    version="1.4.0",
     classifiers=[
         "License :: OSI Approved :: Apache 2 License",
         "License :: OSI Approved :: MIT License",
@@ -12,6 +12,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     packages=find_packages(),
     entry_points={

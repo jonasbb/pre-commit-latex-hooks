@@ -7,7 +7,7 @@
 ```yaml
 repos:
   - repo: https://github.com/jonasbb/pre-commit-latex-hooks
-    rev: v1.3.0
+    rev: v1.4.0
     hooks:
       - id: american-eg-ie
       - id: cleveref-capitalization
