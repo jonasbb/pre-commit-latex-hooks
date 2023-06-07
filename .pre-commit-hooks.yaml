@@ -63,7 +63,7 @@
 - id: tilde-cite
   name: Each \cite needs a ~
   description: Line breaks should never occur before the citation, thus they need to be protected with the ~.
-  entry: "[^~]\\\\cite\\b"
+  entry: "[\s\}]\\\\cite\\b"
   language: pygrep
   types: [file, tex]
   minimum_pre_commit_version: "2.8.0"
