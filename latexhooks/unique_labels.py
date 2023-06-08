@@ -39,7 +39,11 @@ def search(files: t.List[t.IO[str]]) -> bool:
     matches: t.Dict[str, t.List[MatchResult]] = dict()
     for f in files:
         for line_number, line in enumerate(f):
-            line_code = re_no_comment.match(line.rstrip()).group(1) or ""
+            match = re_no_comment.match(line.rstrip())
+            if match is None:
+                line_code = line
+            else:
+                line_code = match.group(1) or ""
             for match in re_label.finditer(line_code):
                 res = MatchResult(
                     line_number=line_number,
