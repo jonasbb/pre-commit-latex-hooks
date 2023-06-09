@@ -25,11 +25,26 @@ class MatchResult:
 def search(files: t.List[t.IO[str]]) -> bool:
     # re.Regex(r"\\label\{(.*?)\}", "label")
     re_label = re.compile(r"\\label\{\s*([^\s\}]*?)\s*\}", re.MULTILINE)
+    # Regex explained:
+    # Part 1: (([^%]|[^\\](?:\\\\)*\\%)*[^\\](?:\\\\)*)?
+    #     This matches the text before a comment
+    #   Part 1a: ([^%]|[^\\](?:\\\\)*\\%)*
+    #       This matches either non-% symbols or a % preceded by an odd number of escaping backslashes
+    #   Part 1b: [^\\](?:\\\\)*
+    #       This matches an (optional) even number of escaping backslashes before the %
+    # Part 2: (%.*)?
+    #     This matches the % and everything after (the part we ignore)
+    re_no_comment = re.compile(r"^(([^%]|[^\\](?:\\\\)*\\%)*[^\\](?:\\\\)*)?(%.*)?$")
 
     matches: t.Dict[str, t.List[MatchResult]] = dict()
     for f in files:
         for line_number, line in enumerate(f):
-            for match in re_label.finditer(line):
+            match = re_no_comment.match(line.rstrip())
+            if match is None:
+                line_code = line
+            else:
+                line_code = match.group(1) or ""
+            for match in re_label.finditer(line_code):
                 res = MatchResult(
                     line_number=line_number,
                     span=match.span(),
