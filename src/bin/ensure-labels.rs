@@ -194,23 +194,22 @@ fn process_file(file: &Path, ignore_label_content: bool) -> Result<FileStatus, E
                     );
                 }
                 Some(label) => {
-                    let skip_check = capture
-                        .comment
-                        .map(|cmt| cmt.contains("skip-label"))
-                        .unwrap_or(false);
-                    // if ignore_label_content  && label != slug &&
-                    if !skip_check && label != slug {
-                        if !ignore_label_content {
-                            let line_number = offset_to_line_number(&text, capture.offset);
-                            found_mismatch = true;
-                            println!(
-                                "{}:{} Wrong Label '{}', use \\label{{{}}}",
-                                file.display(),
-                                line_number,
-                                label,
-                                slug
-                            );
-                        }
+                    if label != slug
+                        && !ignore_label_content
+                        && !capture
+                            .comment
+                            .map(|cmt| cmt.contains("skip-label"))
+                            .unwrap_or(false)
+                    {
+                        let line_number = offset_to_line_number(&text, capture.offset);
+                        found_mismatch = true;
+                        println!(
+                            "{}:{} Wrong Label '{}', use \\label{{{}}}",
+                            file.display(),
+                            line_number,
+                            label,
+                            slug
+                        );
                     }
                 }
             }
