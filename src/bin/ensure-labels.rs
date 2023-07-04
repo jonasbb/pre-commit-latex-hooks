@@ -103,6 +103,8 @@ impl<'a> From<regex::Captures<'a>> for Capture<'a> {
 #[derive(Clone, Debug, clap::Parser)]
 struct CliArgs {
     files: Vec<PathBuf>,
+    #[arg(short, long)]
+    ignore_label_content: bool,
 }
 
 enum FileStatus {
@@ -141,7 +143,7 @@ fn main() {
     let mut has_error = false;
 
     for path in &cli_args.files {
-        match process_file(path) {
+        match process_file(path, cli_args.ignore_label_content) {
             Ok(FileStatus::FoundLabelMismatch) => has_error = true,
             Ok(FileStatus::AllLabelsMatch) => {}
             Err(err) => {
@@ -162,7 +164,7 @@ fn main() {
     }
 }
 
-fn process_file(file: &Path) -> Result<FileStatus, Error> {
+fn process_file(file: &Path, ignore_label_content: bool) -> Result<FileStatus, Error> {
     let mut found_mismatch = false;
     let text = std::fs::read_to_string(file)?;
 
@@ -192,21 +194,23 @@ fn process_file(file: &Path) -> Result<FileStatus, Error> {
                     );
                 }
                 Some(label) => {
-                    if label != slug
-                        && !capture
-                            .comment
-                            .map(|cmt| cmt.contains("skip-label"))
-                            .unwrap_or(false)
-                    {
-                        let line_number = offset_to_line_number(&text, capture.offset);
-                        found_mismatch = true;
-                        println!(
-                            "{}:{} Wrong Label '{}', use \\label{{{}}}",
-                            file.display(),
-                            line_number,
-                            label,
-                            slug
-                        );
+                    let skip_check = capture
+                        .comment
+                        .map(|cmt| cmt.contains("skip-label"))
+                        .unwrap_or(false);
+                    // if ignore_label_content  && label != slug &&
+                    if !skip_check && label != slug {
+                        if !ignore_label_content {
+                            let line_number = offset_to_line_number(&text, capture.offset);
+                            found_mismatch = true;
+                            println!(
+                                "{}:{} Wrong Label '{}', use \\label{{{}}}",
+                                file.display(),
+                                line_number,
+                                label,
+                                slug
+                            );
+                        }
                     }
                 }
             }
