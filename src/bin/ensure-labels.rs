@@ -103,6 +103,8 @@ impl<'a> From<regex::Captures<'a>> for Capture<'a> {
 #[derive(Clone, Debug, clap::Parser)]
 struct CliArgs {
     files: Vec<PathBuf>,
+    #[arg(short, long)]
+    ignore_label_content: bool,
 }
 
 enum FileStatus {
@@ -141,7 +143,7 @@ fn main() {
     let mut has_error = false;
 
     for path in &cli_args.files {
-        match process_file(path) {
+        match process_file(path, cli_args.ignore_label_content) {
             Ok(FileStatus::FoundLabelMismatch) => has_error = true,
             Ok(FileStatus::AllLabelsMatch) => {}
             Err(err) => {
@@ -162,7 +164,7 @@ fn main() {
     }
 }
 
-fn process_file(file: &Path) -> Result<FileStatus, Error> {
+fn process_file(file: &Path, ignore_label_content: bool) -> Result<FileStatus, Error> {
     let mut found_mismatch = false;
     let text = std::fs::read_to_string(file)?;
 
@@ -193,6 +195,7 @@ fn process_file(file: &Path) -> Result<FileStatus, Error> {
                 }
                 Some(label) => {
                     if label != slug
+                        && !ignore_label_content
                         && !capture
                             .comment
                             .map(|cmt| cmt.contains("skip-label"))
