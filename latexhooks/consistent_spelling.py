@@ -117,7 +117,7 @@ def main() -> None:
     parser.add_argument(
         "files",
         metavar="FILE",
-        type=open,
+        type=lambda x: open(x, encoding="utf-8"),
         nargs="+",
         help="List of filenames to search in",
     )
