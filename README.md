@@ -21,14 +21,14 @@ repos:
             ]
       - id: csquotes
       - id: ensure-labels-for-sections
-      - id: no-space-in-cite
-      - id: tilde-cite
-      - id: unique-labels
         # args:
         #     [
         #       # If present only check that there is a \label{} but not the value
         #       "--ignore-label-content",
         #     ]
+      - id: no-space-in-cite
+      - id: tilde-cite
+      - id: unique-labels
       - id: cleveref-instead-of-autoref
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.3.0
