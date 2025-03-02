@@ -111,7 +111,7 @@ def main() -> None:
         action="append",
         metavar=("name=regex"),
         type=lambda x: x.split("=", 2),
-        help="Match all occurences of regex",
+        help="Match all occurrences of regex",
         default=list(),
     )
     parser.add_argument(

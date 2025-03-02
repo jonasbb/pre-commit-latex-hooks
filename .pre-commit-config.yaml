@@ -39,3 +39,7 @@ repos:
     rev: v1.15.0
     hooks:
       - id: mypy
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.30.0
+    hooks:
+      - id: typos

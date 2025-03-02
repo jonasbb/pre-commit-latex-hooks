@@ -1,0 +1,3 @@
+[default.extend-words]
+# Used as abbreviation for labels
+unknwn = "unknwn"
