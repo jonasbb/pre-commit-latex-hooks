@@ -17,7 +17,7 @@ repos:
       - id: black
         language_version: python3
   - repo: https://github.com/PyCQA/isort
-    rev: 6.0.0
+    rev: 6.0.1
     # https://github.com/python/black#how-black-wraps-lines
     hooks:
       - id: isort
