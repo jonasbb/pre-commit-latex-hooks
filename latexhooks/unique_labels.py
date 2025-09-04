@@ -81,6 +81,11 @@ def search(files: t.List[t.IO[str]]) -> bool:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--individual",
+        action="store_true",
+        help="Allow duplicate labels if they are in different files",
+    )
+    parser.add_argument(
         "files",
         metavar="FILE",
         type=lambda x: open(x, encoding="utf-8"),
@@ -90,7 +95,10 @@ def main() -> None:
     args = parser.parse_args()
 
     files = sorted(args.files, key=lambda f: f.name)
-    found_multiple_definitions = search(files)
+    if args.individual:
+        found_multiple_definitions = any(search([f]) for f in files)
+    else:
+        found_multiple_definitions = search(files)
     if found_multiple_definitions:
         sys.exit("Found multiple definitions of the same label")
 
