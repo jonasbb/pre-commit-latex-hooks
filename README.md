@@ -29,6 +29,12 @@ repos:
       - id: no-space-in-cite
       - id: tilde-cite
       - id: unique-labels
+        # args:
+        #     [
+        #       # If present only check for uniqueness within each file.
+        #       # Can be useful if a repository contains multiple main files.
+        #       "--individual",
+        #     ]
       - id: cleveref-instead-of-autoref
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.3.0
