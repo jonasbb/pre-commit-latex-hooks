@@ -17,7 +17,7 @@ repos:
       - id: black
         language_version: python3
   - repo: https://github.com/PyCQA/isort
-    rev: 9.0.0a3
+    rev: 9.0.0b1
     # https://github.com/python/black#how-black-wraps-lines
     hooks:
       - id: isort
@@ -36,7 +36,7 @@ repos:
       - id: pyupgrade
         args: ["--py37-plus"]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v2.1.0
+    rev: v2.3.0
     hooks:
       - id: mypy
   - repo: https://github.com/crate-ci/typos
